@@ -1,0 +1,61 @@
+.sidenav-trigger:hover {
+  cursor: pointer;
+}
+
+.border {
+  border: 1px solid !important;
+}
+
+.nav-wrapper ul {
+  height: 100%;
+}
+
+.nav-wrapper ul li {
+  height: 100%;
+}
+
+.nav-wrapper a {
+  height: 100%;
+}
+
+.border-left {
+  border-left: 1px solid !important;
+}
+
+.review-container {
+  height: 10rem;
+  overflow: scroll;
+}
+
+.movie-info {
+  margin: 0 1rem !important;
+}
+
+.movie-info.border:not(:first-child) {
+  border-top: 0 !important;
+}
+
+.reviewer-img {
+  height: 2rem !important;
+  margin-bottom: -0.6rem;
+}
+
+.profile-img {
+  height: 100%;
+  margin-right: .5rem;
+}
+
+.username {
+  margin-right: .5rem;
+}
+
+.profile-img img {
+  height: 60%;
+}
+
+@media screen and (min-device-width: 600px)  {
+  .movie.row {
+    display: flex;
+    align-items: center;
+  }
+}
