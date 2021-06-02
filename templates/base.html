@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Reviews</title>
+
+  <!-- Material Icon -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Materialize CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+</head>
+<body>
+  <header>
+    <!-- Browser Main Nav -->
+    <nav>
+      <div class="nav-wrapper pink darken-3">
+        <a role="button" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <a href="/" class="brand-logo center">Logo</a>
+        <ul id="page-links" class="left hide-on-med-and-down">
+          <li><a href="/movies">Movies</a></li>
+        </ul>
+        <ul id="profile-links" class="right hide-on-med-and-down">
+          {% if not session["user"] %}
+           <li><a href="/login">Log In</a></li> 
+          {% else %}
+          <a href="#">
+            <li class="profile-img valign-wrapper">
+              <img src="{{ session['user']['profile_url'] }}" alt="session['user']['username']" class="responsive-img circle">
+            </li>
+            <span class="username">{{ session['user']['username'] }}</span>
+          </a>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile Side Nav -->
+    <ul class="sidenav" id="mobile-sidenav">
+      <li><a href="/movies">Movies</a></li>
+    </ul>
+  </header>
+
+  <!-- Flashed Messages -->
+  <section>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="row flashes">
+            <h4 class="pink lighten-4 center-align">{{ message }}</h4>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </section>
+
+  <!-- Content -->
+  <main class="container">
+    {% block content %}
+    {% endblock %}
+  </main>
+  
+  <!-- Scripts -->
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+          integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+          crossorigin="anonymous"></script>
+  <!-- Materalize JS CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- Custom JS -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+            
+</body>
+</html>
