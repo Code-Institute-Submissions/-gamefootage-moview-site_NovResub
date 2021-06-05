@@ -15,9 +15,14 @@
 </head>
 <body>
   <header>
+    <!-- User dropdown -->
+    <ul id="user-dropdown" class="dropdown-content">
+      <li class="dropdown-link"><a href="/profile">Profile</a></li>
+      <li class="dropdown-link"><a href="/logout">Log Out</a></li>
+    </ul>
     <!-- Browser Main Nav -->
     <nav>
-      <div class="nav-wrapper pink darken-3">
+      <div class="nav-wrapper pink">
         <a role="button" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <a href="/" class="brand-logo center">Logo</a>
         <ul id="page-links" class="left hide-on-med-and-down">
@@ -27,7 +32,7 @@
           {% if not session["user"] %}
            <li><a href="/login">Log In</a></li> 
           {% else %}
-          <a href="#">
+          <a class="dropdown-trigger" href="#!" data-target="user-dropdown">
             <li class="profile-img valign-wrapper">
               <img src="{{ session['user']['profile_url'] }}" alt="session['user']['username']" class="responsive-img circle">
             </li>
@@ -46,14 +51,13 @@
 
   <!-- Flashed Messages -->
   <section>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <div class="row flashes">
-            <h4 class="pink lighten-4 center-align">{{ message }}</h4>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+          <div id="snackbar" class="{% if messages %} show {% endif %}">
+            {{ message }}
+            <i class="material-icons right">close</i>
           </div>
         {% endfor %}
-      {% endif %}
     {% endwith %}
   </section>
 
@@ -62,6 +66,9 @@
     {% block content %}
     {% endblock %}
   </main>
+
+  {% block modals %}
+  {% endblock %}
   
   <!-- Scripts -->
   <!-- JQuery -->
@@ -72,6 +79,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!-- Custom JS -->
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <!-- File specific js -->
+  {% block scripts %}
+  {% endblock %}
             
 </body>
 </html>

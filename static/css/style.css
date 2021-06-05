@@ -6,11 +6,11 @@
   border: 1px solid !important;
 }
 
-.nav-wrapper ul {
+.nav-wrapper ul:not(#user-dropdown) {
   height: 100%;
 }
 
-.nav-wrapper ul li {
+.nav-wrapper ul li:not(.dropdown-link) {
   height: 100%;
 }
 
@@ -50,7 +50,48 @@
 }
 
 .profile-img img {
-  height: 60%;
+  height: 3rem;
+  width: 3rem;
+  overflow: clip;
+  border-radius: 50%;
+}
+
+
+/* W3Schools How To: Snackbar - https://www.w3schools.com/howto/howto_js_snackbar.asp */
+#snackbar {
+  height: min-content;
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 2000; /* Add a z-index if needed */
+  right: 15px; /* Center the snackbar */
+  top: 30px; /* 30px from the bottom */
+  transition: background-color 0.2s ease-in-out;
+}
+
+#snackbar:hover {
+  cursor: pointer;
+  background-color: #5c5c5c;
+}
+
+#snackbar:hover i {
+  transition: color 0.2s ease-in-out;
+  color: #343434;
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.5s;
+  animation: fadein 0.5s;
 }
 
 @media screen and (min-device-width: 600px)  {
@@ -58,4 +99,15 @@
     display: flex;
     align-items: center;
   }
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
 }

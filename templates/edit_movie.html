@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3 class="card-panel blue darken-1 white-text">Edit Movie</h3>
+
+  <div class="row">
+    <form id="edit-movie-form" class="col s12 card-panel z-depth-1" method="POST" action="{{ url_for('edit_movie', movie_id=movie._id) }}">
+      <div class="row">
+        <div class="input-field col s12 m-2">
+          <input id="title" name="title" type="text" class="validate" value="{{ movie.title }}" required>
+          <label for="title">Title</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="description" name="description" class="validate materialize-textarea" required>{{ movie.description | trim }}</textarea>
+          <label for="description">Description</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="chips chips-initial chips-placeholder">
+            <input class="custom-class">
+          </div>
+        </div>
+        <input type="text" id="starring" name="starring" value="{{ movie.starring | join(',') }}" hidden>
+      </div>
+
+      <div class="row center-align">
+        <button class="btn waves-effect waves-light" type="button" name="edit-movie-btn">Save
+          <i class="material-icons right">save</i>
+        </button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/edit-movie.js') }}"></script>
+{% endblock %}
