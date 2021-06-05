@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3 class="card-panel blue lighten-1 white-text">Profile</h3>
+
+  <div class="card-panel">
+    <form method="POST" action="{{ url_for('show_profile') }}" >    
+      <div class="row">
+        <div class="input-field col s12">
+          <input disabled value="{{ user.username }}" id="username" name="username" type="text" class="validate">
+          <label for="disabled">Username</label>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="profile_url" name="profile_url" type="text" value="{{ user.profile_url }}" class="validate" required>
+          <label for="profile_url">Profile Image</label>
+          <span class="helper-text" data-error="Invalid format" data-success="Valid format">Enter the url of your desired image. (Must be in jpeg, jpg or png format and should be square for optimal display)</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12">
+          <button class="btn right waves-effect waves-light" type="submit" name="action">Submit
+            <i class="material-icons right">save</i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}
