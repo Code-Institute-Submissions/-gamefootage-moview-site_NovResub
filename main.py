@@ -39,7 +39,6 @@ def login():
       if check_password_hash(
         db_user["password"], request.form.get("password")
       ):
-        print(db_user["_id"])
         # store user info in session
         session["user"] = {
           "_id": str(db_user["_id"]),
@@ -63,7 +62,8 @@ def login():
 def register():
   if request.method == "POST":
 
-    profile_url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+    profile_url = """https://cdn.pixabay.com/photo/2015/10/05/22/37/
+                      blank-profile-picture-973460_960_720.png"""
     new_user = {
       "username": request.form.get("username").lower(),
       "password": generate_password_hash(request.form.get("password")),
@@ -184,15 +184,25 @@ def edit_movie(movie_id):
     else:
       flash("Error updating movie. Please try again")
       return render_template("edit_movie.html", movie=movie)
-
-
   return redirect(url_for('get_movies'))
+ 
   
 
 @app.route("/add-review/<movie_id>", methods=["POST", "GET"])
 def add_review(movie_id):
+  reviewer = session["user"]["username"]
+  current_reviews = mongo.db.movies.find_one({
+    "_id": ObjectId(movie_id)
+  })["reviews"]
+
+  for review in current_reviews:
+    if review["reviewer"] == reviewer:
+      flash("""Sorry, only one review per person is allowed. 
+      Please delete or simply edit your previous review""")
+      return redirect(url_for('get_movies'))
+
   new_review = {
-    "reviewer": request.form.get("reviewer"), 
+    "reviewer": reviewer, 
     "review": request.form.get("review") 
   }
   result = mongo.db.movies.update_one(
@@ -212,20 +222,3 @@ if __name__ == "__main__":
   app.run(host=os.environ.get("IP"), 
           port=int(os.environ.get("PORT")), 
           debug=True)
-
-#             REGISTER LOGIC
-#  profile_url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-#     new_user = {
-#       "username": request.form.get("username").lower(),
-#       "password": generate_password_hash(request.form.get("password")),
-#       "profile_url": profile_url
-#     }
-#     mongo.db.users.insert_one(new_user)
-
-#     # put new user into sesssion cookie
-#     session["user"] = {
-#       "username": request.form.get("username").lower(),
-#       "profile_url": profile_url
-#     }
-#     flash("Regisration Successful!")
-#     return redirect(url_for('get_movies'))

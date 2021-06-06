@@ -96,7 +96,6 @@
           </form>
           <form data-movie-id="{{ movie._id }}" style="display: none;" method="POST" action="{{ url_for('add_review', movie_id=movie._id) }}">
             <input type="text" id="movie-review-{{ movie._id }}" name="review">
-            <input type="text" id="movie-reviewer-{{ movie._id }}" value="{{ session['user']['username'] }}" name="reviewer">
           </form>
         </li>
         {% endfor %}
