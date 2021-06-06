@@ -123,7 +123,7 @@ def logout():
   return redirect(url_for('login'))
 
 
-@app.route("/delete/<movie_id>/")
+@app.route("/<movie_id>/delete")
 def delete_movie(movie_id):
   user_id = session["user"]["_id"]
   # Only allow user to delte if user submitted the movie
@@ -143,7 +143,7 @@ def delete_movie(movie_id):
 
 
 
-@app.route("/edit/<movie_id>", methods=["GET", "POST"])
+@app.route("/<movie_id>/edit", methods=["GET", "POST"])
 def edit_movie(movie_id):
   if request.method == "GET":
     if movie_id == 'form':
@@ -185,10 +185,10 @@ def edit_movie(movie_id):
       flash("Error updating movie. Please try again")
       return render_template("edit_movie.html", movie=movie)
   return redirect(url_for('get_movies'))
- 
-  
 
-@app.route("/add-review/<movie_id>", methods=["POST", "GET"])
+
+
+@app.route("/<movie_id>/add-review", methods=["POST", "GET"])
 def add_review(movie_id):
   reviewer = session["user"]["username"]
   current_reviews = mongo.db.movies.find_one({
@@ -216,6 +216,59 @@ def add_review(movie_id):
     flash("There was an error submitting your review. Please try again")
 
   return redirect(url_for('get_movies'))
+
+
+@app.route("/<movie_id>/edit-review", methods=["POST", "GET"])
+def edit_review(movie_id):
+  if request.method == "POST":
+    reviews = mongo.db.movies.find_one({
+      "_id": ObjectId(movie_id)
+    })["reviews"]
+
+    review_index = next((i for i, item in enumerate(reviews) if item["reviewer"] == session['user']['username']), -1)
+      
+    if review_index == -1:
+      flash("There was a problem finding your review. Please try again.")
+      return redirect(url_for('get_movies'))
+    else:
+      reviews[review_index]["review"] = request.form.get("review")
+      result = mongo.db.movies.update_one(
+        { "_id": ObjectId(movie_id) },
+        { "$set": { "reviews": reviews } }
+      )
+
+      if result.modified_count > 0:
+        flash("Review successfully updated")
+      else:
+        flash("There was a problem updating your review. Please try again")
+
+    return redirect(url_for('get_movies'))
+
+
+@app.route("/<movie_id>/delete-review")
+def delete_review(movie_id):
+  reviews = mongo.db.movies.find_one({
+    "_id": ObjectId(movie_id)
+  })["reviews"]
+    
+  review_index = next((i for i, item in enumerate(reviews) if item["reviewer"] == session['user']['username']), -1)
+  if review_index == -1:
+      flash("There was a problem finding your review. Please try again.")
+      return redirect(url_for('get_movies'))
+  else:
+    result = mongo.db.movies.update_one(
+      { "_id": ObjectId(movie_id) },
+      { "$pull": { "reviews": {
+        "reviewer": session['user']['username']
+      } } }
+    )
+
+    if result.modified_count > 0:
+      flash("Review successfully deleted")
+    else:
+      flash("There was a problem deleting your review. Please try again")
+    
+    return redirect(url_for("get_movies"))
 
 
 if __name__ == "__main__":

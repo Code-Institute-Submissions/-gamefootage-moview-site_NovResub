@@ -4,16 +4,29 @@ $("button[name=edit-movie]").on('click', function() {
   $("#edit_movie").submit();
 })
 
-$("[name=review-btn]").on("click", function() {
-  $("#movie-review-modal").data("movie-id", $(this).data("movie-id"));
+$("[name=review-btn], [name='edit-review-btn']").on("click", function() {
+  $("#movie-review-modal").data("target-id", $(this).data("target-id"));
+  $("#movie-review-modal textarea").val($(this).data("review"));
 });
 
 $("#movie-review-modal form").on("submit", function(e) {
   e.preventDefault();
   let review = $("#modal-review").val();
-  let movieId = $("#movie-review-modal").data("movie-id");
+  let targetId = $("#movie-review-modal").data("target-id");
 
-  const form = $("form[data-movie-id=" + movieId + "]");
+  const form = $("#" + targetId);
   form.find("[name=review]").val(review);
   form.submit();
 });
+
+$("[name='delete-review-btn']").on("click", function() {
+  $("#confirm-modal").data("target-id", $(this).data("target-id"));
+  $("#confirm-modal").find(".confirmation-message").text($(this).data("message"));
+});
+
+$("#confirm-modal form").on("submit", function(e) {
+  e.preventDefault();
+  let targetId = $("#confirm-modal").data("target-id");
+  const form = $("#" + targetId);
+  form.submit();
+})
