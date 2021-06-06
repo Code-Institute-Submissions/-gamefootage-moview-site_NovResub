@@ -4,6 +4,8 @@ $(document).ready(function(){
   $(".dropdown-trigger").dropdown();
   $('.chips').chips();
   $('.modal').modal();
+  $('.carousel').carousel();
+  $('.scrollspy').scrollSpy();
 });
 
 $("#snackbar").on("click", function() {

@@ -62,8 +62,7 @@ def login():
 def register():
   if request.method == "POST":
 
-    profile_url = """https://cdn.pixabay.com/photo/2015/10/05/22/37/
-                      blank-profile-picture-973460_960_720.png"""
+    profile_url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
     new_user = {
       "username": request.form.get("username").lower(),
       "password": generate_password_hash(request.form.get("password")),
@@ -110,34 +109,41 @@ def show_profile():
     else:
       flash("Error updating user profile. Please try again")
 
-  user = session["user"]
+  if "user" in session:
+    user = session["user"]
+  else:
+    user = None
   if user:
     return render_template("profile.html", user=user)
   else:
+    flash("You must be logged in to view your profile")
     return redirect(url_for("login"))
 
 
 @app.route("/logout")
 def logout():
-  session["user"] = {}
+  del session["user"]
   return redirect(url_for('login'))
 
 
 @app.route("/<movie_id>/delete")
 def delete_movie(movie_id):
-  user_id = session["user"]["_id"]
-  # Only allow user to delte if user submitted the movie
-  result = mongo.db.movies.delete_one({
-    "_id": ObjectId(movie_id), 
-    "submitted_by": ObjectId(user_id)
-  })
-
-  print(result)
-
-  if result.deleted_count > 0:
-    flash("Movie successfully deleted")
+  if not "user" in session:
+    flash("You must be logged in to perform any actions. Please log in or sign up.")
   else:
-    flash("You do not have the correct permissions to delete this movie")
+    user_id = session["user"]["_id"]
+    # Only allow user to delte if user submitted the movie
+    result = mongo.db.movies.delete_one({
+      "_id": ObjectId(movie_id), 
+      "submitted_by": ObjectId(user_id)
+    })
+
+    print(result)
+
+    if result.deleted_count > 0:
+      flash("Movie successfully deleted")
+    else:
+      flash("You do not have the correct permissions to delete this movie")
 
   return redirect(url_for('get_movies'))
 
@@ -145,45 +151,48 @@ def delete_movie(movie_id):
 
 @app.route("/<movie_id>/edit", methods=["GET", "POST"])
 def edit_movie(movie_id):
-  if request.method == "GET":
-    if movie_id == 'form':
-      movie_id = request.args.get("edit_movie_id")
+  if not "user" in session:
+    flash("You must be logged in to perform any actions. Please log in or sign up.")
+  else:
+    if request.method == "GET":
+      if movie_id == 'form':
+        movie_id = request.args.get("edit_movie_id")
 
-    user_id = session["user"]["_id"]
-    movie = mongo.db.movies.find_one({
-      "_id": ObjectId(movie_id),
-      "submitted_by": ObjectId(user_id)
-    })
+      user_id = session["user"]["_id"]
+      movie = mongo.db.movies.find_one({
+        "_id": ObjectId(movie_id),
+        "submitted_by": ObjectId(user_id)
+      })
 
-    if not movie:
-      flash("You don't have the correct permissions to edit this movie")
-    else:
-      return render_template("edit_movie.html", movie=movie)
-  elif request.method == "POST":
-    user_id = session["user"]["_id"]
-    movie = mongo.db.movies.find_one({
-      "_id": ObjectId(movie_id),
-      "submitted_by": ObjectId(user_id)
-    })
+      if not movie:
+        flash("You don't have the correct permissions to edit this movie")
+      else:
+        return render_template("edit_movie.html", movie=movie)
+    elif request.method == "POST":
+      user_id = session["user"]["_id"]
+      movie = mongo.db.movies.find_one({
+        "_id": ObjectId(movie_id),
+        "submitted_by": ObjectId(user_id)
+      })
 
-    edit = {
-      "title": request.form.get('title'),
-      "description": request.form.get('description'),
-      "starring": request.form.get("starring").split(","),
-      "cover_image_url": request.form.get("cover_image_url"),
-      "director": request.form.get("director")
-    }
-    result = mongo.db.movies.update_one({ "_id": ObjectId(movie_id) },
-      {
-        "$set": edit
+      edit = {
+        "title": request.form.get('title'),
+        "description": request.form.get('description'),
+        "starring": request.form.get("starring").split(","),
+        "cover_image_url": request.form.get("cover_image_url"),
+        "director": request.form.get("director")
       }
-    )
-    if result.modified_count > 0:
-      flash("Movie successfully edited")
-      return redirect(url_for('get_movies'))
-    else:
-      flash("Error updating movie. Please try again")
-      return render_template("edit_movie.html", movie=movie)
+      result = mongo.db.movies.update_one({ "_id": ObjectId(movie_id) },
+        {
+          "$set": edit
+        }
+      )
+      if result.modified_count > 0:
+        flash("Movie successfully edited")
+        return redirect(url_for('get_movies'))
+      else:
+        flash("Error updating movie. Please try again")
+        return render_template("edit_movie.html", movie=movie)
   return redirect(url_for('get_movies'))
 
 
@@ -191,6 +200,7 @@ def edit_movie(movie_id):
 @app.route("/<movie_id>/add-review", methods=["POST", "GET"])
 def add_review(movie_id):
   reviewer = session["user"]["username"]
+  reviewer_img = session["user"]["profile_url"]
   current_reviews = mongo.db.movies.find_one({
     "_id": ObjectId(movie_id)
   })["reviews"]
@@ -203,7 +213,8 @@ def add_review(movie_id):
 
   new_review = {
     "reviewer": reviewer, 
-    "review": request.form.get("review") 
+    "review": request.form.get("review"),
+    "reviewer_img": reviewer_img
   }
   result = mongo.db.movies.update_one(
     { "_id": ObjectId(movie_id) },

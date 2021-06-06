@@ -31,6 +31,7 @@
         <ul id="profile-links" class="right hide-on-med-and-down">
           {% if not session["user"] %}
            <li><a href="/login">Log In</a></li> 
+           <li><a href="/register">Register</a></li> 
           {% else %}
           <a class="dropdown-trigger" href="#!" data-target="user-dropdown">
             <li class="profile-img valign-wrapper">
@@ -60,6 +61,14 @@
         {% endfor %}
     {% endwith %}
   </section>
+  
+  <!-- Content Title -->
+  <div class="row">
+    <div class="col s12">
+      {% block title%}
+      {% endblock %}
+    </div>
+  </div>
 
   <!-- Content -->
   <main class="container">

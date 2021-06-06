@@ -1,3 +1,12 @@
+html { 
+  background: url("../images/3d-bg.webp") no-repeat center center fixed; 
+  background-color: #050e4f;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .sidenav-trigger:hover {
   cursor: pointer;
 }
@@ -37,6 +46,7 @@
 
 .reviewer-img {
   height: 2rem !important;
+  width: 2rem;
   margin-bottom: -0.6rem;
 }
 
@@ -92,6 +102,16 @@
   However, delay the fade out process for 2.5 seconds */
   -webkit-animation: fadein 0.5s;
   animation: fadein 0.5s;
+}
+
+.side-contents {
+  position: fixed !important;
+  right: 0 !important;
+  width: max-content !important;
+}
+
+.table-of-contents a {
+  color: white;
 }
 
 @media screen and (min-device-width: 600px)  {

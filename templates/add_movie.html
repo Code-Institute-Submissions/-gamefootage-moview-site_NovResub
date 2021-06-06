@@ -1,46 +1,48 @@
 {% extends "base.html" %}
+{% block title %}
+  <h3 class="card-panel blue darken-1 white-text">Add Movie</h3>
+{% endblock %}
 {% block content %}
-  <h3 class="card-panel blue darken-1 white-text">Edit Movie</h3>
 
   <div class="row">
-    <form id="edit-movie-form" class="col s12 card-panel z-depth-1" method="POST" action="{{ url_for('edit_movie', movie_id=movie._id) }}">
+    <form id="add-movie-form" class="col s12 card-panel z-depth-1" method="POST" action="{{ url_for('add_movie') }}">
       <div class="row">
         <div class="input-field col s12 m-2">
-          <input id="title" name="title" type="text" class="validate" value="{{ movie.title }}" required>
+          <input id="title" name="title" type="text" class="validate" required>
           <label for="title">Title</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12 m-2">
-          <input id="director" name="director" type="text" class="validate" value="{{ movie.director }}" required>
+          <input id="director" name="director" type="text" class="validate" required>
           <label for="director">Director</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="description" name="description" class="validate materialize-textarea" required>{{ movie.description | trim }}</textarea>
+          <textarea id="description" name="description" class="validate materialize-textarea" required></textarea>
           <label for="description">Description</label>
         </div>
       </div>
       <div class="row">
         <div class="col s12">
-          <div class="chips chips-initial chips-placeholder">
+          <div class="chips chips-placeholder">
             <input class="custom-class">
           </div>
         </div>
-        <input type="text" id="starring" name="starring" value="{{ movie.starring | join(',') }}" hidden>
+        <input type="text" id="starring" name="starring" hidden>
       </div>
 
       <div class="row">
         <div class="input-field col s12">
-          <input id="cover_image_url" name="cover_image_url" type="text" value="{{ movie.cover_image_url }}" class="validate" required>
+          <input id="cover_image_url" name="cover_image_url" type="text" class="validate" required>
           <label for="cover_image_url">Movie Poster</label>
           <span class="helper-text" data-error="Invalid format" data-success="Valid format">Enter the url of your desired image. (Must be in jpeg, jpg or png format and should be square for optimal display)</span>
         </div>
       </div>
 
       <div class="row center-align">
-        <button class="btn waves-effect waves-light" type="button" name="edit-movie-btn">Save
+        <button class="btn waves-effect waves-light" type="button" name="add-movie-btn">Save
           <i class="material-icons right">save</i>
         </button>
       </div>

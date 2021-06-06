@@ -1,131 +1,159 @@
 {% extends "base.html" %}
-{% block content %}
+{% block title %}
   <h3 class="card-panel pink darken-1 white-text">Movies</h3>
- 
-  <div class="row">
-    <div class="col s12">
-      <ul>
-        {% for movie in movies %}
-        <li class="card-panel z-depth-2 hoverable">
-          <div class="row movie">
-
-            <div class="col m2 s12">
-              <img src="{{ movie.cover_image_url }}" alt="{{ movie.title }}" class="responsive-img materialboxed">
-            </div>
-            <div class="col m10 s12 center-align">
-              <div class="row valign-wrapper">
-                <div class="col s10">
-                  <h5 class="black-text text-darken">{{ movie.title }}</h5>
-                </div>
-                <div class="col s2 right-align">
-                  <button class="btn btn-floating waves-effect waves-light" type="button" data-movie-id="{{ movie._id }}" name="edit-movie">
-                    <i class="material-icons">edit</i>
-                  </button>
-                  <form action="{{ url_for('delete_movie', movie_id=movie._id) }}">
-                    <button class="btn red btn-floating waves-effect waves-light" type="submit" name="delete">
-                      <i class="material-icons">delete</i>
-                    </button>
-                  </form>
-                </div>
-              </div>
-
-              <div class="row">
-
-                <div class="row valign-wrapper border movie-info">
-                  <div class="col m2 s4">
-                    <p><b>Directed By</b></p>
-                  </div>
-                  <div class="col m10 s8 left-align border-left">
-                    <p>
-                      {{ movie.director }}
-                    </p>
-                  </div>
-                </div>
-
-                <div class="row valign-wrapper border movie-info">
-                  <div class="col m2 s4">
-                    <p><b>Starring</b></p>
-                  </div>
-                  <div class="col m10 s8 left-align border-left">
-                    <p>
-                      {% for star in movie.starring %}
-                        {% if loop.last %}
-                          <span>{{ star }}</span>
-                        {% else %}
-                        <span>{{ star }},</span>
-                        {% endif %}
-                      {% endfor %}
-                    </p>
-                  </div>
-                </div>
-
-                <div class="row valign-wrapper border movie-info">
-                  <div class="col m2 s4">
-                    <p><b>Description</b></p>
-                  </div>
-                  <div class="col m10 s8 left-align border-left">
-                    <p>
-                      {{ movie.description }}
-                    </p>
-                  </div>
-                </div>
-                
-                <div class="row border movie-info">
-                  <div class="col m2 s4">
-                    <p><b>Reviews</b></p>
-                    <a name="review-btn" data-target-id="{{ movie._id }}-review" class="btn-floating waves-effect waves-light green modal-trigger" href="#movie-review-modal"><i class="material-icons">add</i></a>
-                  </div>
-                  <div class="col m10 s8 review-container left-align border-left">
-                      {% for review in movie.reviews %}
-                      <div class="review">
-                        <blockquote>
-                          {{ review.review }} <br>
-                          <em>- {{ review.reviewer }}</em> 
-                          <img class="circle responsive-img reviewer-img" alt="profile picture"
-                                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png">
-                          {% if review.reviewer == session["user"]["username"] %}
-                            <div class="btn-group right">
-                              <form id="{{ movie._id }}-{{ review.reviewer }}-edit" method="POST" action="{{ url_for('edit_review', movie_id=movie._id) }}" style="display: none;">
-                                <input type="text" name="review" hidden>
-                              </form>
-                              <form id="{{ movie._id }}-{{ review.reviewer }}-delete" method="GET" action="{{ url_for('delete_review', movie_id=movie._id) }}" style="display: none;">
-                                <input type="text" name="review" hidden>
-                              </form>
-                              <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-edit" data-review="{{ review.review }}" 
-                                      class="btn btn-small btn-floating waves-effect waves-light modal-trigger" href="#movie-review-modal" type="button" name="edit-review-btn">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-delete" class="btn red btn-small btn-floating waves-effect waves-light modal-trigger" 
-                                      href="#confirm-modal" type="button" name="delete-review-btn"  
-                                      data-message="Are you sure you want to delete your review? The action is permanent and irreversible.">
-                                <i class="material-icons">delete</i>
-                              </button>
-                            </div>
-                          {% endif %}
-                        </blockquote>
-                        {% if not loop.last %}
-                          <hr>
-                        {% endif %}
-                      </div>
-                      {% endfor %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <form id="{{ movie._id }}-review" style="display: none;" method="POST" action="{{ url_for('add_review', movie_id=movie._id) }}">
-            <input type="text" id="movie-review-{{ movie._id }}" name="review">
-          </form>
-        </li>
-        {% endfor %}
-      </ul>
+{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col s12">
+    <div class="row movie-carousel">
+      <div class="col s12">
+        <div class="carousel">
+          {% for movie in movies %}
+            <a class="carousel-item" href="#{{ movie._id }}"><img src="{{ movie.cover_image_url }}"></a>
+          {% endfor %}
+          <a class="carousel-item" href="#three!"><img src="https://lorempixel.com/250/250/nature/3"></a>
+          <a class="carousel-item" href="#four!"><img src="https://lorempixel.com/250/250/nature/4"></a>
+          <a class="carousel-item" href="#five!"><img src="https://lorempixel.com/250/250/nature/5"></a>
+        </div>
+      </div>
     </div>
+  
+    <div class="row">
+      <div class="col s112">
+        <ul>
+          {% for movie in movies %}
+          <li id="{{ movie._id }}" class="card-panel z-depth-2 hoverable section scrollspy">
+            <div class="row movie">
+  
+              <div class="col m2 s12">
+                <img src="{{ movie.cover_image_url }}" alt="{{ movie.title }}" class="responsive-img materialboxed">
+              </div>
+              <div class="col m10 s12 center-align">
+                <div class="row valign-wrapper">
+                  <div class="col s10">
+                    <h5 class="black-text text-darken">{{ movie.title }}</h5>
+                  </div>
+                  <div class="col s2 right-align">
+                    <button class="btn btn-floating waves-effect waves-light" type="button" data-movie-id="{{ movie._id }}" name="edit-movie">
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <form style="display: inline;" action="{{ url_for('delete_movie', movie_id=movie._id) }}">
+                      <button class="btn red btn-floating waves-effect waves-light" type="submit" name="delete">
+                        <i class="material-icons">delete</i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+  
+                <div class="row">
+  
+                  <div class="row valign-wrapper border movie-info">
+                    <div class="col m2 s4">
+                      <p><b>Directed By</b></p>
+                    </div>
+                    <div class="col m10 s8 left-align border-left">
+                      <p>
+                        {{ movie.director }}
+                      </p>
+                    </div>
+                  </div>
+  
+                  <div class="row valign-wrapper border movie-info">
+                    <div class="col m2 s4">
+                      <p><b>Starring</b></p>
+                    </div>
+                    <div class="col m10 s8 left-align border-left">
+                      <p>
+                        {% for star in movie.starring %}
+                          {% if loop.last %}
+                            <span>{{ star }}</span>
+                          {% else %}
+                          <span>{{ star }},</span>
+                          {% endif %}
+                        {% endfor %}
+                      </p>
+                    </div>
+                  </div>
+  
+                  <div class="row valign-wrapper border movie-info">
+                    <div class="col m2 s4">
+                      <p><b>Description</b></p>
+                    </div>
+                    <div class="col m10 s8 left-align border-left">
+                      <p>
+                        {{ movie.description }}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div class="row border movie-info">
+                    <div class="col m2 s4">
+                      <p><b>Reviews</b></p>
+                      <a name="review-btn" data-target-id="{{ movie._id }}-review" class="btn-floating waves-effect waves-light green modal-trigger" href="#movie-review-modal"><i class="material-icons">add</i></a>
+                    </div>
+                    <div class="col m10 s8 review-container left-align border-left">
+                        {% for review in movie.reviews %}
+                        <div class="review">
+                          <blockquote>
+                            {{ review.review }} <br>
+                            <em>- {{ review.reviewer }}</em> 
+                            <img class="circle responsive-img reviewer-img" alt="profile picture"
+                                  src="{{ review.reviewer_img }}">
+                            {% if session["user"] and review.reviewer == session["user"]["username"] %}
+                              <div class="btn-group right">
+                                <form id="{{ movie._id }}-{{ review.reviewer }}-edit" method="POST" action="{{ url_for('edit_review', movie_id=movie._id) }}" style="display: none;">
+                                  <input type="text" name="review" hidden>
+                                </form>
+                                <form id="{{ movie._id }}-{{ review.reviewer }}-delete" method="GET" action="{{ url_for('delete_review', movie_id=movie._id) }}" style="display: none;">
+                                  <input type="text" name="review" hidden>
+                                </form>
+                                <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-edit" data-review="{{ review.review }}" 
+                                        class="btn btn-small btn-floating waves-effect waves-light modal-trigger" href="#movie-review-modal" type="button" name="edit-review-btn">
+                                  <i class="material-icons">edit</i>
+                                </button>
+                                <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-delete" class="btn red btn-small btn-floating waves-effect waves-light modal-trigger" 
+                                        href="#confirm-modal" type="button" name="delete-review-btn"  
+                                        data-message="Are you sure you want to delete your review? The action is permanent and irreversible.">
+                                  <i class="material-icons">delete</i>
+                                </button>
+                              </div>
+                            {% endif %}
+                          </blockquote>
+                          {% if not loop.last %}
+                            <hr>
+                          {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <form id="{{ movie._id }}-review" style="display: none;" method="POST" action="{{ url_for('add_review', movie_id=movie._id) }}">
+              <input type="text" id="movie-review-{{ movie._id }}" name="review">
+            </form>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  
+    <!-- Hidden form for edit movie Python -->
+    <form id="edit_movie" style="display: none;" method="GET" action="{{ url_for('edit_movie', movie_id='form') }}">
+      <input type="text" name="edit_movie_id" id="edit_movie_id">
+    </form>
+  </div>
+  <div class="col side-contents white-text">
+    <h6 class="center-align"><strong>Movies List</strong></h6>
+    <hr>
+    <ul class="section table-of-contents">
+      {% for movie in movies %}
+        <li><a href="#{{ movie._id }}">{{ movie.title }}</a></li>
+      {% endfor %}
+    </ul>
   </div>
 
-  <!-- Hidden form for edit movie Python -->
-  <form id="edit_movie" style="display: none;" method="GET" action="{{ url_for('edit_movie', movie_id='form') }}">
-    <input type="text" name="edit_movie_id" id="edit_movie_id">
-  </form>
+</div>
   
 {% endblock %}
 
