@@ -11,6 +11,12 @@
         </div>
       </div>
       <div class="row">
+        <div class="input-field col s12 m-2">
+          <input id="director" name="director" type="text" class="validate" value="{{ movie.director }}" required>
+          <label for="director">Director</label>
+        </div>
+      </div>
+      <div class="row">
         <div class="input-field col s12">
           <textarea id="description" name="description" class="validate materialize-textarea" required>{{ movie.description | trim }}</textarea>
           <label for="description">Description</label>
@@ -23,6 +29,14 @@
           </div>
         </div>
         <input type="text" id="starring" name="starring" value="{{ movie.starring | join(',') }}" hidden>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="cover_image_url" name="cover_image_url" type="text" value="{{ movie.cover_image_url }}" class="validate" required>
+          <label for="cover_image_url">Cover Image</label>
+          <span class="helper-text" data-error="Invalid format" data-success="Valid format">Enter the url of your desired image. (Must be in jpeg, jpg or png format and should be square for optimal display)</span>
+        </div>
       </div>
 
       <div class="row center-align">

@@ -169,7 +169,9 @@ def edit_movie(movie_id):
     edit = {
       "title": request.form.get('title'),
       "description": request.form.get('description'),
-      "starring": request.form.get("starring").split(",")
+      "starring": request.form.get("starring").split(","),
+      "cover_image_url": request.form.get("cover_image_url"),
+      "director": request.form.get("director")
     }
     result = mongo.db.movies.update_one({ "_id": ObjectId(movie_id) },
       {
@@ -187,6 +189,23 @@ def edit_movie(movie_id):
   return redirect(url_for('get_movies'))
   
 
+@app.route("/add-review/<movie_id>", methods=["POST", "GET"])
+def add_review(movie_id):
+  new_review = {
+    "reviewer": request.form.get("reviewer"), 
+    "review": request.form.get("review") 
+  }
+  result = mongo.db.movies.update_one(
+    { "_id": ObjectId(movie_id) },
+    { "$push": { "reviews": new_review } }
+  )
+
+  if result.modified_count > 0:
+    flash("Review successfully added")
+  else:
+    flash("There was an error submitting your review. Please try again")
+
+  return redirect(url_for('get_movies'))
 
 
 if __name__ == "__main__":

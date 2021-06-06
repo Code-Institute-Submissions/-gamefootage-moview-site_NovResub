@@ -3,6 +3,7 @@ $(document).ready(function(){
   $('.materialboxed').materialbox();
   $(".dropdown-trigger").dropdown();
   $('.chips').chips();
+  $('.modal').modal();
 });
 
 $("#snackbar").on("click", function() {

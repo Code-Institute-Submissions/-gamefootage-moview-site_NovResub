@@ -13,7 +13,7 @@ $(document).ready(function() {
   $('.chips-initial').chips({
     data: data
   });
-})
+});
 
 $("button[name=edit-movie-btn]").on("click", function() {
   let actors = [];
@@ -28,4 +28,12 @@ $("button[name=edit-movie-btn]").on("click", function() {
   $("#starring").val(str);
 
   $("#edit-movie-form").submit();
-})
+});
+
+$("#cover_image_url").on("keyup", function() {
+  if ($("#cover_image_url").val().match(/\.(jpeg|jpg|png)$/) == null) {
+    $("#cover_image_url").get(0).setCustomValidity('Must be a valid URL of JPEG, JPG or PNG format.');
+  } else {
+    $("#cover_image_url").get(0).setCustomValidity('');
+  }
+});
