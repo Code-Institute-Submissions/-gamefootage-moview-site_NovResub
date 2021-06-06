@@ -27,6 +27,7 @@
         <a href="/" class="brand-logo center">Logo</a>
         <ul id="page-links" class="left hide-on-med-and-down">
           <li><a href="/movies">Movies</a></li>
+          <li><a href="/movies/add">Add Movie</a></li>
         </ul>
         <ul id="profile-links" class="right hide-on-med-and-down">
           {% if not session["user"] %}
@@ -47,6 +48,18 @@
     <!-- Mobile Side Nav -->
     <ul class="sidenav" id="mobile-sidenav">
       <li><a href="/movies">Movies</a></li>
+      <li><a href="/movies/add">Add Movie</a></li>
+      {% if not session["user"] %}
+        <li><a href="/login">Log In</a></li> 
+        <li><a href="/register">Register</a></li> 
+     {% else %}
+      <a class="dropdown-trigger" href="#!" data-target="user-dropdown">
+        <li class="profile-img valign-wrapper">
+          <img src="{{ session['user']['profile_url'] }}" alt="session['user']['username']" class="responsive-img circle">
+        </li>
+        <span class="username">{{ session['user']['username'] }}</span>
+      </a>
+     {% endif %}
     </ul>
   </header>
 

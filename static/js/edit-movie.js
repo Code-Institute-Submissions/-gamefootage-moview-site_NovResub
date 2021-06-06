@@ -1,17 +1,19 @@
 $(document).ready(function() {
   let str = $("#starring").val()
-  let arr = str.split(",")
-  let data = arr.reduce(function(obj, a){
-    obj.push({tag: a});
-    return obj;
-  }, [])
+  if (str) {
+    let arr = str.split(",")
+    let data = arr.reduce(function(obj, a){
+      obj.push({tag: a});
+      return obj;
+    }, [])
+    $('.chips-initial').chips({
+      data: data
+    });
+  }
   
   $('.chips-placeholder').chips({
     placeholder: "Enter an actor",
     secondaryPlaceholder: '+Actor',
-  });
-  $('.chips-initial').chips({
-    data: data
   });
 });
 

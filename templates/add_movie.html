@@ -37,7 +37,7 @@
         <div class="input-field col s12">
           <input id="cover_image_url" name="cover_image_url" type="text" class="validate" required>
           <label for="cover_image_url">Movie Poster</label>
-          <span class="helper-text" data-error="Invalid format" data-success="Valid format">Enter the url of your desired image. (Must be in jpeg, jpg or png format and should be square for optimal display)</span>
+          <span class="helper-text" data-error="Invalid format" data-success="Valid format">Enter the url of your desired image. (Must be in jpeg, jpg or png format and should be 1000x1440 for optimal display)</span>
         </div>
       </div>
 
@@ -51,5 +51,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/edit-movie.js') }}"></script>
+<script src="{{ url_for('static', filename='js/add-movie.js') }}"></script>
 {% endblock %}

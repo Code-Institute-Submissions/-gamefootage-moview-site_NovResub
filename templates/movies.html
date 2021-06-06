@@ -21,6 +21,12 @@
     <div class="row">
       <div class="col s112">
         <ul>
+          <li class="card-panel z-depth-2 hoverable center-align">
+            <a name="add-movie-btn" class="btn-floating btn-large waves-effect waves-light green modal-trigger" href="/movies/add">
+              <i class="material-icons">add</i>
+            </a>
+            <h4>Add Movie</h4>
+          </li>
           {% for movie in movies %}
           <li id="{{ movie._id }}" class="card-panel z-depth-2 hoverable section scrollspy">
             <div class="row movie">
