@@ -18,6 +18,14 @@
         </div>
       </div>
     </div>
+    <div class="row card-panel blue darken-2 search-panel">
+      <form action="{{ url_for('search') }}" id="search-form" method="POST" class="row valign-wrapper center-align">
+        <div class="input-field col s12">
+          <i class="material-icons prefix white-text">search</i>
+          <input name="search" id="search" type="text" class="white-text" placeholder="Search movie title, or actor name">
+        </div>
+      </form>
+    </div>
   
     <div class="row">
       <div class="col s12">
@@ -163,11 +171,11 @@
   </div>
 
 </div>
+<!-- Allows check if user is logged in in JavaScript -->
+<input id="user-check" type="text" hidden {% if "user" in session %} value="true" {% endif %}>
   
 {% endblock %}
 
-<!-- Allows check if user is logged in in JavaScript -->
-<input id="user-check" type="text" hidden {% if "user" in session %} value="true" {% endif %}>
 
 {% block modals %}
   <div id="movie-review-modal" class="modal">
@@ -209,8 +217,10 @@
       <a class="modal-close waves-effect red btn">Cancel</a>
       <a class="btn right waves-effect waves-light" href="{{ url_for('login') }}">Log In
         <i class="material-icons right">login</i>
+      </a>
       <a class="btn right waves-effect waves-light" href="{{ url_for('register') }}">Register
         <i class="material-icons right">how_to_reg</i>
+      </a>
     </div>
   </div>
 {% endblock %}

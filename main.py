@@ -1,4 +1,5 @@
 import os
+from time import monotonic
 from flask import (
   Flask, flash, render_template, redirect, request, session, url_for
 )
@@ -6,7 +7,7 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import flask_pymongo
 import pymongo
-from pymongo.message import update
+from pymongo.message import query, update
 from werkzeug import useragents
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -313,6 +314,12 @@ def add_movie():
   else:
     flash("You must be logged in to add a movie.")
     return redirect(url_for("get_movies"))
+
+@app.route("/movies/search", methods=["POST", "GET"])
+def search():
+  term = request.form.get("search")
+  movies = list(mongo.db.movies.find( { "$text": { "$search": term } } ))
+  return render_template("movies.html", movies=movies)
 
 if __name__ == "__main__":
   app.run(host=os.environ.get("IP"), 
