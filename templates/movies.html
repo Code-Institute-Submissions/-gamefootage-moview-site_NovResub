@@ -155,7 +155,6 @@
     <h6 class="center-align"><strong>Movies List</strong></h6>
     <hr>
     <ul class="section table-of-contents">
-      <li><a href="#60bd36d5d6d186bb22a22b9c">Movie</a></li>
       {% for movie in movies %}
         <li><a href="#{{ movie._id }}">{{ movie.title | title }}</a></li>
       {% endfor %}
