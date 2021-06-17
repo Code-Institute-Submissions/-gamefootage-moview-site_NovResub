@@ -1,10 +1,17 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Viaoda+Libre&display=swap');
+
 html { 
-  background: url("../images/3d-bg.webp") no-repeat center center fixed; 
+  background: url("../images/3d-bg.webp") no-repeat center center fixed;
   background-color: #050e4f;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+h1,h2,h3 {
+  font-family: 'Viaoda Libre', cursive;
 }
 
 .sidenav-trigger:hover {

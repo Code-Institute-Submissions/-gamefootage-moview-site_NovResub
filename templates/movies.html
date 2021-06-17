@@ -37,7 +37,7 @@
               <div class="col m10 s12 center-align">
                 <div class="row valign-wrapper">
                   <div class="col s10">
-                    <h5 class="black-text text-darken">{{ movie.title }}</h5>
+                    <h5 class="black-text text-darken">{{ movie.title | title }}</h5>
                   </div>
                   <div class="col s2 right-align">
                     <button class="btn btn-floating waves-effect waves-light" type="button" data-movie-id="{{ movie._id }}" name="edit-movie">
