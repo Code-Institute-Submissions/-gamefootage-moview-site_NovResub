@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-  <h3 class="card-panel pink darken-1 white-text">Movies</h3>
+  <h3 class="card-panel movie-title white-text">Movies</h3>
 {% endblock %}
 {% block content %}
 <div class="row">
@@ -19,16 +19,15 @@
     </div>
   
     <div class="row">
-      <div class="col s112">
-        <ul>
-          <li class="card-panel z-depth-2 hoverable center-align">
+      <div class="col s12">
+          <div class="card-panel z-depth-2 hoverable center-align">
             <a name="add-movie-btn" class="btn-floating btn-large waves-effect waves-light green modal-trigger" href="/movies/add">
               <i class="material-icons">add</i>
             </a>
             <h4>Add Movie</h4>
-          </li>
+          </div>
           {% for movie in movies %}
-          <li id="{{ movie._id }}" class="card-panel z-depth-2 hoverable section scrollspy">
+          <div id="{{ movie._id }}" class="card-panel z-depth-2 hoverable section scrollspy">
             <div class="row movie">
   
               <div class="col m2 s12">
@@ -108,31 +107,30 @@
                                 {{ review.review }} <br>
                                 <em>- {{ review.reviewer }}</em>
                               </p>
-                              <!-- <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a> -->
+                              <!-- If user created the review add hidden forms for JS to Python communication -->
+                              {% if session["user"] and review.reviewer == session["user"]["username"] %}
+                                <div class="btn-group right">
+                                  <form id="{{ movie._id }}-{{ review.reviewer }}-edit" method="POST" action="{{ url_for('edit_review', movie_id=movie._id) }}" 
+                                        style="display: none;">
+                                    <input type="text" name="review" hidden>
+                                  </form>
+                                  <form id="{{ movie._id }}-{{ review.reviewer }}-delete" method="GET" action="{{ url_for('delete_review', movie_id=movie._id) }}" 
+                                        style="display: none;">
+                                    <input type="text" name="review" hidden>
+                                  </form>
+                                  <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-edit" data-review="{{ review.review }}" 
+                                          class="btn btn-small btn-floating waves-effect waves-light modal-trigger" data-target="movie-review-modal" type="button" name="edit-review-btn">
+                                    <i class="material-icons">edit</i>
+                                  </button>
+                                  <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-delete" class="btn red btn-small btn-floating waves-effect waves-light modal-trigger" 
+                                          data-target="#confirm-modal" type="button" name="delete-review-btn"  
+                                          data-message="Are you sure you want to delete your review? The action is permanent and irreversible.">
+                                    <i class="material-icons">delete</i>
+                                  </button>
+                                </div>
+                              {% endif %}
                             </li>
-                          </ul>
-                          <!-- If user created the review add hidden forms for JS to Python communication -->
-                          {% if session["user"] and review.reviewer == session["user"]["username"] %}
-                            <div class="btn-group right">
-                              <form id="{{ movie._id }}-{{ review.reviewer }}-edit" method="POST" action="{{ url_for('edit_review', movie_id=movie._id) }}" 
-                                    style="display: none;">
-                                <input type="text" name="review" hidden>
-                              </form>
-                              <form id="{{ movie._id }}-{{ review.reviewer }}-delete" method="GET" action="{{ url_for('delete_review', movie_id=movie._id) }}" 
-                                    style="display: none;">
-                                <input type="text" name="review" hidden>
-                              </form>
-                              <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-edit" data-review="{{ review.review }}" 
-                                      class="btn btn-small btn-floating waves-effect waves-light modal-trigger" href="#movie-review-modal" type="button" name="edit-review-btn">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-delete" class="btn red btn-small btn-floating waves-effect waves-light modal-trigger" 
-                                      href="#confirm-modal" type="button" name="delete-review-btn"  
-                                      data-message="Are you sure you want to delete your review? The action is permanent and irreversible.">
-                                <i class="material-icons">delete</i>
-                              </button>
-                            </div>
-                          {% endif %}
+                          </ul>                          
                         </div>
                         {% endfor %}
                     </div>
@@ -143,9 +141,8 @@
             <form id="{{ movie._id }}-review" style="display: none;" method="POST" action="{{ url_for('add_review', movie_id=movie._id) }}">
               <input type="text" id="movie-review-{{ movie._id }}" name="review">
             </form>
-          </li>
+          </div>
           {% endfor %}
-        </ul>
       </div>
     </div>
   
@@ -158,6 +155,7 @@
     <h6 class="center-align"><strong>Movies List</strong></h6>
     <hr>
     <ul class="section table-of-contents">
+      <li><a href="#60bd36d5d6d186bb22a22b9c">Movie</a></li>
       {% for movie in movies %}
         <li><a href="#{{ movie._id }}">{{ movie.title | title }}</a></li>
       {% endfor %}
