@@ -24,7 +24,8 @@
     <nav>
       <div class="nav-wrapper">
         <a role="button" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        <a href="/" class="brand-logo center">Logo</a>
+        <a href="/" class="center brand-logo flow-text"></a>
+        <a href="/" class="brand-logo center">Moview - the moview review database</a>
         <ul id="page-links" class="left hide-on-med-and-down">
           <li><a href="/movies">Movies</a></li>
           <li><a href="/movies/add">Add Movie</a></li>
@@ -34,7 +35,7 @@
            <li><a href="/login">Log In</a></li> 
            <li><a href="/register">Register</a></li> 
           {% else %}
-          <a class="dropdown-trigger" href="#!" data-target="user-dropdown">
+          <a class="dropdown-trigger" href="#user-dropdown" data-target="user-dropdown">
             <li class="profile-img valign-wrapper">
               <img src="{{ session['user']['profile_url'] }}" alt="session['user']['username']" class="responsive-img circle">
             </li>
@@ -46,19 +47,17 @@
     </nav>
 
     <!-- Mobile Side Nav -->
-    <ul class="sidenav" id="mobile-sidenav">
+    <ul class="sidenav show-on-small" id="mobile-sidenav">
       <li><a href="/movies">Movies</a></li>
       <li><a href="/movies/add">Add Movie</a></li>
       {% if not session["user"] %}
         <li><a href="/login">Log In</a></li> 
         <li><a href="/register">Register</a></li> 
      {% else %}
-      <a class="dropdown-trigger" href="#!" data-target="user-dropdown">
-        <li class="profile-img valign-wrapper">
-          <img src="{{ session['user']['profile_url'] }}" alt="session['user']['username']" class="responsive-img circle">
-        </li>
-        <span class="username">{{ session['user']['username'] }}</span>
-      </a>
+      <li><div class="divider"></div></li>
+      <li><a class="subheader">{{session['user']['username']}}</a></li>
+      <li><a class="waves-effect" href="/profile">Profile</a></li>
+      <li><a class="waves-effect" href="/logout">Logout</a></li>
      {% endif %}
     </ul>
   </header>
@@ -92,6 +91,39 @@
   <!-- Content Modals -->
   {% block modals %}
   {% endblock %}
+
+  <!-- Footer -->
+  
+  <footer class="page-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Moview (Educational Project)</h5>
+          <p class="grey-text text-lighten-4">
+            This website isn't subject to copyright as it is a website created for purely educational purposes.
+          </p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text">Creator Contact Info</h5>
+          <ul>
+            <li class="valign-wrapper footer-link">
+              <i class="material-icons">email</i>
+              <a href="mailto:ben@strongermade.com" class="grey-text text-lighten-3">ben@strongermade.com</a>
+            </li>
+            <li class="valign-wrapper footer-link">
+              <i class="material-icons">badge</i>
+              <a href="https://www.linkedin.com/in/ben-kelly-a36b001b2/" class="grey-text text-lighten-3">LinkedIn</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      © {{ now.year }} Ben Kelly
+      </div>
+    </div>
+  </footer>
   
   <!-- Scripts -->
   <!-- JQuery -->
