@@ -12,7 +12,7 @@ $(document).ready(function() {
   }
   
   $('.chips-placeholder').chips({
-    placeholder: "Enter an actor",
+    placeholder: "Press the enter key after the typing the actor's name",
     secondaryPlaceholder: '+Actor',
   });
 });

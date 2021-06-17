@@ -110,6 +110,10 @@ main {
   color: #fff;
 }
 
+#add-movie-form, #edit-movie-form {
+  padding: 3rem;
+}
+
 
 /* W3Schools How To: Snackbar - https://www.w3schools.com/howto/howto_js_snackbar.asp */
 #snackbar {
