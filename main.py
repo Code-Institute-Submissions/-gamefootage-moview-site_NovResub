@@ -205,11 +205,12 @@ def add_review(movie_id):
     "_id": ObjectId(movie_id)
   })["reviews"]
 
-  for review in current_reviews:
-    if review["reviewer"] == reviewer:
-      flash("""Sorry, only one review per person is allowed. 
-      Please delete or simply edit your previous review""")
-      return redirect(url_for('get_movies'))
+  if len(current_reviews) > 0:
+    for review in current_reviews:
+      if review["reviewer"] == reviewer:
+        flash("""Sorry, only one review per person is allowed. 
+        Please delete or simply edit your previous review""")
+        return redirect(url_for('get_movies'))
 
   new_review = {
     "reviewer": reviewer, 
@@ -291,7 +292,8 @@ def add_movie():
       "starring": request.form.get("starring").split(","),
       "description": request.form.get("description"),
       "cover_image_url": request.form.get("cover_image_url"),
-      "submitted_by": session["user"]["_id"]
+      "submitted_by": session["user"]["_id"],
+      "reviews": []
     }
     result = mongo.db.movies.insert_one(new_movie)
     if result.inserted_id != None:
