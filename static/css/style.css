@@ -1,5 +1,5 @@
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Raleway&display=swap');
 
 html { 
   background: url("../images/3d-bg.jpg") no-repeat center center fixed;
@@ -9,6 +9,7 @@ html {
   -o-background-size: cover;
   background-size: cover;
   scroll-behavior: smooth;
+  font-family: Raleway, sans-serif;
 }
 
 h1,h2,h3 {
@@ -27,7 +28,7 @@ main {
   border: 1px solid !important;
 }
 
-.nav-wrapper {
+.nav-wrapper, .page-footer {
   /* UI Gradients - Yoda background */
   background: #FF0099;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #493240, #FF0099);  /* Chrome 10-25, Safari 5.1-6 */
@@ -46,7 +47,7 @@ main {
   height: 100%;
 }
 
-.movie-title {
+.page-title {
   background-color: #af3576;
 }
 
@@ -101,6 +102,14 @@ main {
   min-height: 100% !important;
 }
 
+.chips input.custom-class {
+  width: 100% !important;
+}
+
+.input-field .helper-text {
+  color: #fff;
+}
+
 
 /* W3Schools How To: Snackbar - https://www.w3schools.com/howto/howto_js_snackbar.asp */
 #snackbar {
@@ -147,6 +156,10 @@ main {
 
 .table-of-contents a {
   color: white;
+}
+
+.footer-link i {
+  margin-right: 1rem;
 }
 
 @media screen and (min-device-width: 600px)  {

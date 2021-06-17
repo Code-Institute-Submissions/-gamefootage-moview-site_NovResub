@@ -1,7 +1,7 @@
 $(document).ready(function(){
   $('.sidenav').sidenav();
   $('.materialboxed').materialbox();
-  $(".dropdown-trigger").dropdown();
+  $('.dropdown-trigger').dropdown();
   $('.chips').chips();
   $('.modal').modal();
   $('.carousel').carousel();

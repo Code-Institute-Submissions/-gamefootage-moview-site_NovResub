@@ -5,3 +5,10 @@ $("#password, #confirm-password").on("keyup", function(e) {
     $("#confirm-password").get(0).setCustomValidity('');
   }
 });
+
+$("#username").on("keypress", function(e) {
+  const key = e.keyCode;
+  if (key === 32) {
+    e.preventDefault();
+  }
+});
