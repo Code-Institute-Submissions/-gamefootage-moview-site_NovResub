@@ -1,3 +1,10 @@
+$(document).ready(function() {
+  if ( $("#user-check").val() !== "true" ) {
+    const instance = M.Modal.getInstance($("#login-modal"));
+    instance.open();
+  }
+});
+
 $("button[name=edit-movie]").on('click', function() {
   let id = $(this).data('movie-id');
   $("#edit_movie_id").val(id);
