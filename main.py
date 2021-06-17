@@ -299,7 +299,7 @@ def add_movie():
         "starring": request.form.get("starring").split(","),
         "description": request.form.get("description"),
         "cover_image_url": request.form.get("cover_image_url"),
-        "submitted_by": session["user"]["_id"],
+        "submitted_by": ObjectId(session["user"]["_id"]),
         "reviews": []
       }
       result = mongo.db.movies.insert_one(new_movie)

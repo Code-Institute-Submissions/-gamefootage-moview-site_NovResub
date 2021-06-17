@@ -6,15 +6,16 @@ $(document).ready(function() {
       obj.push({tag: a});
       return obj;
     }, [])
+    $('.chips-placeholder').chips({
+      placeholder: "Press the enter key after the typing the actor's name",
+      secondaryPlaceholder: '+Actor',
+    });
+    
     $('.chips-initial').chips({
       data: data
     });
   }
   
-  $('.chips-placeholder').chips({
-    placeholder: "Press the enter key after the typing the actor's name",
-    secondaryPlaceholder: '+Actor',
-  });
 });
 
 $("button[name=edit-movie-btn]").on("click", function() {
