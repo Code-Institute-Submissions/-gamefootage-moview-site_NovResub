@@ -291,24 +291,28 @@ def delete_review(movie_id):
 
 @app.route("/movies/add", methods=["POST", "GET"])
 def add_movie():
-  if request.method == "POST":
-    new_movie = {
-      "title": request.form.get("title"),
-      "director": request.form.get("director"),
-      "starring": request.form.get("starring").split(","),
-      "description": request.form.get("description"),
-      "cover_image_url": request.form.get("cover_image_url"),
-      "submitted_by": session["user"]["_id"],
-      "reviews": []
-    }
-    result = mongo.db.movies.insert_one(new_movie)
-    if result.inserted_id != None:
-      flash("Movie added successfully")
-      return redirect(url_for("get_movies"))
-    else:
-      flash("There was an error adding your movie please try again.")
+  if "user" in session:
+    if request.method == "POST":
+      new_movie = {
+        "title": request.form.get("title"),
+        "director": request.form.get("director"),
+        "starring": request.form.get("starring").split(","),
+        "description": request.form.get("description"),
+        "cover_image_url": request.form.get("cover_image_url"),
+        "submitted_by": session["user"]["_id"],
+        "reviews": []
+      }
+      result = mongo.db.movies.insert_one(new_movie)
+      if result.inserted_id != None:
+        flash("Movie added successfully")
+        return redirect(url_for("get_movies"))
+      else:
+        flash("There was an error adding your movie please try again.")
 
-  return render_template("add_movie.html")
+    return render_template("add_movie.html")
+  else:
+    flash("You must be logged in to add a movie.")
+    return redirect(url_for("get_movies"))
 
 if __name__ == "__main__":
   app.run(host=os.environ.get("IP"), 
