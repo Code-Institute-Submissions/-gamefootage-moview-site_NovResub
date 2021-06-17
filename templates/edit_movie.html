@@ -1,31 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-  <h3 class="card-panel blue darken-1 white-text">Edit Movie</h3>
+  <h3 class="card-panel page-title white-text">Edit Movie</h3>
 
   <div class="row">
-    <form id="edit-movie-form" class="col s12 card-panel z-depth-1" method="POST" action="{{ url_for('edit_movie', movie_id=movie._id) }}">
+    <form id="edit-movie-form" class="col s12 card-panel blue darken-4 z-depth-1" method="POST" action="{{ url_for('edit_movie', movie_id=movie._id) }}">
       <div class="row">
         <div class="input-field col s12 m-2">
-          <input id="title" name="title" type="text" class="validate" value="{{ movie.title }}" required>
-          <label for="title">Title</label>
+          <input id="title" name="title" type="text" class="validate white-text" value="{{ movie.title }}" required>
+          <label class="white-text" for="title">Title</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12 m-2">
-          <input id="director" name="director" type="text" class="validate" value="{{ movie.director }}" required>
-          <label for="director">Director</label>
+          <input id="director" name="director" type="text" class="validate white-text" value="{{ movie.director }}" required>
+          <label class="white-text" for="director">Director</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="description" name="description" class="validate materialize-textarea" required>{{ movie.description | trim }}</textarea>
-          <label for="description">Description</label>
+          <textarea id="description" name="description" class="validate materialize-textarea white-text" required>{{ movie.description | trim }}</textarea>
+          <label class="white-text" for="description">Description</label>
         </div>
       </div>
       <div class="row">
         <div class="col s12">
           <div class="chips chips-initial chips-placeholder">
-            <input class="custom-class">
+            <input class="custom-class white-text">
           </div>
         </div>
         <input type="text" id="starring" name="starring" value="{{ movie.starring | join(',') }}" hidden>
@@ -33,8 +33,8 @@
 
       <div class="row">
         <div class="input-field col s12">
-          <input id="cover_image_url" name="cover_image_url" type="text" value="{{ movie.cover_image_url }}" class="validate" required>
-          <label for="cover_image_url">Movie Poster</label>
+          <input id="cover_image_url" name="cover_image_url" type="text" value="{{ movie.cover_image_url }}" class="validate white-text" required>
+          <label class="white-text" for="cover_image_url">Movie Poster</label>
           <span class="helper-text" data-error="Invalid format" data-success="Valid format">Enter the url of your desired image. (Must be in jpeg, jpg or png format and should be square for optimal display)</span>
         </div>
       </div>

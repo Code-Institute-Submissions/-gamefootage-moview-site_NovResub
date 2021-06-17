@@ -8,19 +8,19 @@
     <form id="add-movie-form" class="col s12 card-panel blue darken-4 z-depth-1" method="POST" action="{{ url_for('add_movie') }}">
       <div class="row">
         <div class="input-field col s12 m-2">
-          <input id="title" name="title" type="text" class="validate" required>
+          <input id="title" name="title" type="text" class="validate white-text" required>
           <label class="white-text" for="title">Title</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12 m-2">
-          <input id="director" name="director" type="text" class="validate" required>
+          <input id="director" name="director" type="text" class="validate white-text" required>
           <label class="white-text" for="director">Director</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="description" name="description" class="validate materialize-textarea" required></textarea>
+          <textarea id="description" name="description" class="validate white-text materialize-textarea" required></textarea>
           <label class="white-text" for="description">Description</label>
         </div>
       </div>
@@ -35,7 +35,7 @@
 
       <div class="row">
         <div class="input-field col s12">
-          <input id="cover_image_url" name="cover_image_url" type="text" class="validate" required>
+          <input id="cover_image_url" name="cover_image_url" type="text" class="validate white-text" required>
           <label class="white-text" for="cover_image_url">Movie Poster</label>
           <span class="helper-text" data-error="Invalid format" data-success="Valid format">Enter the url of your desired image. (Must be in jpeg, jpg or png format and should be 1000x1440 for optimal display)</span>
         </div>
