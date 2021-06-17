@@ -38,6 +38,10 @@ h1,h2,h3 {
   border-left: 1px solid !important;
 }
 
+.border-right {
+  border-right: 1px solid !important;
+}
+
 .review-container {
   height: 10rem;
   overflow: scroll;
@@ -71,6 +75,10 @@ h1,h2,h3 {
   width: 3rem;
   overflow: clip;
   border-radius: 50%;
+}
+
+.starring {
+  min-height: 100% !important;
 }
 
 

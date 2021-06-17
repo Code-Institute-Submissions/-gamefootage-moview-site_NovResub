@@ -59,7 +59,7 @@
                     </div>
                     <div class="col m10 s8 left-align border-left">
                       <p>
-                        {{ movie.director }}
+                        {{ movie.director | title }}
                       </p>
                     </div>
                   </div>
@@ -72,7 +72,7 @@
                       <p>
                         {% for star in movie.starring %}
                           {% if loop.last %}
-                            <span>{{ star }}</span>
+                            <span>{{ star | title }}</span>
                           {% else %}
                           <span>{{ star }},</span>
                           {% endif %}
@@ -100,33 +100,35 @@
                     <div class="col m10 s8 review-container left-align border-left">
                         {% for review in movie.reviews %}
                         <div class="review">
-                          <blockquote>
-                            {{ review.review }} <br>
-                            <em>- {{ review.reviewer }}</em> 
-                            <img class="circle responsive-img reviewer-img" alt="profile picture"
-                                  src="{{ review.reviewer_img }}">
-                            {% if session["user"] and review.reviewer == session["user"]["username"] %}
-                              <div class="btn-group right">
-                                <form id="{{ movie._id }}-{{ review.reviewer }}-edit" method="POST" action="{{ url_for('edit_review', movie_id=movie._id) }}" style="display: none;">
-                                  <input type="text" name="review" hidden>
-                                </form>
-                                <form id="{{ movie._id }}-{{ review.reviewer }}-delete" method="GET" action="{{ url_for('delete_review', movie_id=movie._id) }}" style="display: none;">
-                                  <input type="text" name="review" hidden>
-                                </form>
-                                <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-edit" data-review="{{ review.review }}" 
-                                        class="btn btn-small btn-floating waves-effect waves-light modal-trigger" href="#movie-review-modal" type="button" name="edit-review-btn">
-                                  <i class="material-icons">edit</i>
-                                </button>
-                                <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-delete" class="btn red btn-small btn-floating waves-effect waves-light modal-trigger" 
-                                        href="#confirm-modal" type="button" name="delete-review-btn"  
-                                        data-message="Are you sure you want to delete your review? The action is permanent and irreversible.">
-                                  <i class="material-icons">delete</i>
-                                </button>
-                              </div>
-                            {% endif %}
-                          </blockquote>
-                          {% if not loop.last %}
-                            <hr>
+                          <ul class="collection">
+                            <li class="collection-item avatar">
+                              <img src="{{ review.reviewer_img }}" alt="review avatar" class="circle">
+                              <p>
+                                {{ review.review }} <br>
+                                <em>- {{ review.reviewer }}</em>
+                              </p>
+                              <!-- <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a> -->
+                            </li>
+                          </ul>
+                          <!-- If user created the review add hidden forms for JS to Python communication -->
+                          {% if session["user"] and review.reviewer == session["user"]["username"] %}
+                            <div class="btn-group right">
+                              <form id="{{ movie._id }}-{{ review.reviewer }}-edit" method="POST" action="{{ url_for('edit_review', movie_id=movie._id) }}" style="display: none;">
+                                <input type="text" name="review" hidden>
+                              </form>
+                              <form id="{{ movie._id }}-{{ review.reviewer }}-delete" method="GET" action="{{ url_for('delete_review', movie_id=movie._id) }}" style="display: none;">
+                                <input type="text" name="review" hidden>
+                              </form>
+                              <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-edit" data-review="{{ review.review }}" 
+                                      class="btn btn-small btn-floating waves-effect waves-light modal-trigger" href="#movie-review-modal" type="button" name="edit-review-btn">
+                                <i class="material-icons">edit</i>
+                              </button>
+                              <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-delete" class="btn red btn-small btn-floating waves-effect waves-light modal-trigger" 
+                                      href="#confirm-modal" type="button" name="delete-review-btn"  
+                                      data-message="Are you sure you want to delete your review? The action is permanent and irreversible.">
+                                <i class="material-icons">delete</i>
+                              </button>
+                            </div>
                           {% endif %}
                         </div>
                         {% endfor %}
