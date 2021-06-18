@@ -240,6 +240,8 @@ def add_review(movie_id):
 
 @app.route("/<movie_id>/edit-review", methods=["POST", "GET"])
 def edit_review(movie_id):
+  print(request.form.get("rating"))
+  print(request.form.get("review"))
   if request.method == "POST":
     reviews = mongo.db.movies.find_one({
       "_id": ObjectId(movie_id)
@@ -254,6 +256,8 @@ def edit_review(movie_id):
       return redirect(url_for('get_movies'))
     else:
       reviews[review_index]["review"] = request.form.get("review")
+      reviews[review_index]["rating"] = request.form.get("rating")
+
       result = mongo.db.movies.update_one(
         { "_id": ObjectId(movie_id) },
         { "$set": { "reviews": reviews } }

@@ -1,5 +1,5 @@
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Raleway:wght@400;500&display=swap');
 
 html { 
   background: url("../images/3d-bg.jpg") no-repeat center center fixed;
@@ -225,6 +225,40 @@ main {
   .collection-item.avatar {
     padding: 0.1rem !important;
   }
+}
+
+/* Rating Input from StackOverflow */
+/* (https://stackoverflow.com/questions/8118266/integrating-css-star-rating-into-an-html-form) */
+
+.rating {
+  float:left;
+}
+.rating span { float:right; position:relative; }
+.rating span input {
+  position:absolute;
+  top:0px;
+  left:0px;
+  opacity:0;
+}
+.rating span label {
+  display:inline-block;
+  width:30px;
+  height:30px;
+  text-align:center;
+  color:#FFF;
+  background:#ccc;
+  font-size:30px;
+  margin-right:2px;
+  line-height:30px;
+  border-radius:50%;
+  -webkit-border-radius:50%;
+}
+.rating span:hover ~ span label,
+.rating span:hover label,
+.rating span.checked label,
+.rating span.checked ~ span label {
+  background:#F90;
+  color:#FFF;
 }
 
 /* Animations to fade the snackbar in and out */

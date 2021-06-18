@@ -41,6 +41,13 @@
   
               <div class="col m2 s12">
                 <img src="{{ movie.cover_image_url }}" alt="{{ movie.title }}" class="responsive-img materialboxed">
+                {% set count = namespace(value=0) %}
+                {% set valid_reviews = namespace(value=0) %}
+                {% for review in movie.reviews %}
+                  {% set count.value = count.value + review.rating|int if review.rating else count.value %}
+                  {% set valid_reviews.value = valid_reviews.value + 1 if review.rating else valid_reviews.value %}
+                {% endfor %}
+                <h5>Avg Rating: {{(count.value / valid_reviews.value)|int if valid_reviews.value > 0 else "?" }}/5</h5>
               </div>
               <div class="col m10 s12 center-align">
                 <div class="row valign-wrapper">
@@ -118,18 +125,22 @@
                                 {{ review.review }} <br>
                                 <em>- {{ review.reviewer }}</em>
                               </p>
+                              <p>
+                                <strong>Rating: </strong> {{ review.rating if review.rating else '?' }}/5
+                              </p>
                               <!-- If user created the review add hidden forms for JS to Python communication -->
                               {% if session["user"] and review.reviewer == session["user"]["username"] %}
                                 <div class="btn-group right">
                                   <form id="{{ movie._id }}-{{ review.reviewer }}-edit" method="POST" action="{{ url_for('edit_review', movie_id=movie._id) }}" 
                                         style="display: none;">
                                     <input type="text" name="review" hidden>
+                                    <input type="text" name="rating" hidden>
                                   </form>
                                   <form id="{{ movie._id }}-{{ review.reviewer }}-delete" method="GET" action="{{ url_for('delete_review', movie_id=movie._id) }}" 
                                         style="display: none;">
                                     <input type="text" name="review" hidden>
                                   </form>
-                                  <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-edit" data-review="{{ review.review }}" 
+                                  <button data-target-id="{{ movie._id }}-{{ review.reviewer }}-edit" data-review="{{ review.review }}" data-rating="{{ review.rating }}"
                                           class="btn btn-small btn-floating waves-effect waves-light modal-trigger" data-target="movie-review-modal" type="button" name="edit-review-btn">
                                     <i class="material-icons">edit</i>
                                   </button>
@@ -183,7 +194,19 @@
   <div id="movie-review-modal" class="modal">
     <form>
       <div class="modal-content">
-        <textarea placeholder="Enter your review" class="materialize-textarea" name="modal-review" id="modal-review" required></textarea>
+          <div class="input-field col s12">
+            <textarea placeholder="Enter your review" class="materialize-textarea" name="modal-review" id="modal-review" required></textarea>
+          </div>
+          <div>
+            <strong>Rating</strong>
+          </div>
+          <div class="rating">
+            <span><input type="radio" name="rating" id="str5" value="5"><label for="str5"></label></span>
+            <span><input type="radio" name="rating" id="str4" value="4"><label for="str4"></label></span>
+            <span><input type="radio" name="rating" id="str3" value="3"><label for="str3"></label></span>
+            <span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
+            <span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
+          </div>
       </div>
       <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
