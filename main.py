@@ -69,7 +69,8 @@ def login():
 def register():
   if request.method == "POST":
 
-    profile_url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+    profile_url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/\
+                   blank-profile-picture-973460_960_720.png"
     new_user = {
       "username": request.form.get("username").lower(),
       "password": generate_password_hash(request.form.get("password")),
@@ -244,7 +245,9 @@ def edit_review(movie_id):
       "_id": ObjectId(movie_id)
     })["reviews"]
 
-    review_index = next((i for i, item in enumerate(reviews) if item["reviewer"] == session['user']['username']), -1)
+    review_index = next(
+      (i for i, item in enumerate(reviews) 
+      if item["reviewer"] == session['user']['username']), -1)
       
     if review_index == -1:
       flash("There was a problem finding your review. Please try again.")
@@ -270,7 +273,9 @@ def delete_review(movie_id):
     "_id": ObjectId(movie_id)
   })["reviews"]
     
-  review_index = next((i for i, item in enumerate(reviews) if item["reviewer"] == session['user']['username']), -1)
+  review_index = next(
+    (i for i, item in enumerate(reviews) 
+    if item["reviewer"] == session['user']['username']), -1)
   if review_index == -1:
       flash("There was a problem finding your review. Please try again.")
       return redirect(url_for('get_movies'))
