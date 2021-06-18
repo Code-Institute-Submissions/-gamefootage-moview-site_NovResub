@@ -197,7 +197,7 @@ Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-re
 
 ### Media
 
--   Images were taken off Google Images from [PNG Tree](https://pngtree.com/), [Wallpaper Better](https://www.wallpaperbetter.com/), and IMDB(https://www.imdb.com/).
+-   Images were taken off Google Images and from [PNG Tree](https://pngtree.com/), [Wallpaper Better](https://www.wallpaperbetter.com/), and [IMDB](https://www.imdb.com/).
 
 ### Acknowledgements
 
