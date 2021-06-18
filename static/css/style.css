@@ -94,7 +94,6 @@ main {
 .profile-img img {
   height: 3rem;
   width: 3rem;
-  overflow: clip;
   border-radius: 50%;
 }
 
@@ -174,13 +173,13 @@ main {
   margin-right: 1rem;
 }
 
-@media screen and (max-device-width: 1599px) {
+@media screen and (max-width: 1599px) {
   .side-contents {
     display: none !important;
   }
 }
 
-@media screen and (min-device-width: 600px)  {
+@media screen and (min-width: 600px)  {
   .movie.row {
     display: flex;
     align-items: center;
@@ -191,7 +190,7 @@ main {
   }
 }
 
-@media screen and (max-device-width: 991.99px) {
+@media screen and (max-width: 991.99px) {
   .row.valign-wrapper.desc {
     display: block !important;
   }
@@ -202,7 +201,7 @@ main {
   }
 }
 
-@media screen and (max-device-width: 599.99px)  {
+@media screen and (max-width: 599.99px)  {
   .row.valign-wrapper {
     display: block !important;
   }
