@@ -174,10 +174,57 @@ main {
   margin-right: 1rem;
 }
 
+@media screen and (max-device-width: 1599px) {
+  .side-contents {
+    display: none !important;
+  }
+}
+
 @media screen and (min-device-width: 600px)  {
   .movie.row {
     display: flex;
     align-items: center;
+  }
+
+  .movie-info .content {
+    border-left: 1px solid;
+  }
+}
+
+@media screen and (max-device-width: 991.99px) {
+  .row.valign-wrapper.desc {
+    display: block !important;
+  }
+
+  .movie-info.desc .content {
+    border-top: 1px solid;
+    border-left: 0 !important;
+  }
+}
+
+@media screen and (max-device-width: 599.99px)  {
+  .row.valign-wrapper {
+    display: block !important;
+  }
+
+  .movie-info .content {
+    border-top: 1px solid;
+  }
+
+  .movie-info > .review {
+    padding: 0 2rem;
+  }
+
+  .movie-info .review > p {
+    display: inline-block;
+  }
+  
+  .movie-info .review > a {
+    display: inline-block;
+  }
+
+  .collection-item.avatar {
+    padding: 0.1rem !important;
   }
 }
 
