@@ -54,7 +54,7 @@
                   <div class="col s12 l0">
                     <h5 class="black-text text-darken">{{ movie.title | title }}</h5>
                   </div>
-                  {% if movie.submitted_by|string == session['user']['_id']|string %}
+                  {% if session['user'] and movie.submitted_by|string == session['user']['_id']|string %}
                     <div class="col s12 right-align">
                       <button class="btn btn-floating waves-effect waves-light" type="button" data-movie-id="{{ movie._id }}" name="edit-movie">
                         <i class="material-icons">edit</i>
