@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block title %}
-  <h4 class="card-panel page-title white-text">
+  <div class="card-panel page-title white-text">
     Movies
     <hr>
     <small>Here, you can add a new movie entry or edit your previous ones. You can also leave reviews and ratings on all movies present.</small>
-  </h4>
+</div>
 {% endblock %}
 {% block content %}
 <div class="row">
@@ -13,7 +13,7 @@
       <div class="col s12">
         <div class="carousel">
           {% for movie in movies %}
-            <a class="carousel-item" href="#{{ movie._id }}"><img src="{{ movie.cover_image_url }}"></a>
+            <a class="carousel-item" href="#{{ movie._id }}"><img alt="{{ movie.title }} poster" src="{{ movie.cover_image_url }}"></a>
           {% endfor %}
         </div>
       </div>
@@ -40,7 +40,7 @@
             <div class="row movie">
   
               <div class="col m2 s12">
-                <img src="{{ movie.cover_image_url }}" alt="{{ movie.title }}" class="responsive-img materialboxed">
+                <img src="{{ movie.cover_image_url }}" alt="{{ movie.title }} poster" class="responsive-img materialboxed">
                 {% set count = namespace(value=0) %}
                 {% set valid_reviews = namespace(value=0) %}
                 {% for review in movie.reviews %}
@@ -120,7 +120,7 @@
                         <div class="review">
                           <ul class="collection">
                             <li class="collection-item avatar">
-                              <img src="{{ review.reviewer_img }}" alt="review avatar" class="circle hide-on-small-only">
+                              <img src="{{ review.reviewer_img }}" alt="reviewer avatar" class="circle hide-on-small-only">
                               <p>
                                 {{ review.review }} <br>
                                 <em>- {{ review.reviewer }}</em>

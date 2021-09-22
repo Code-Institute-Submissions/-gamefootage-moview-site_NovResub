@@ -51,6 +51,10 @@ main {
   background-color: #af3576;
 }
 
+.card-panel.page-title {
+    font-size: 2.28rem;
+}
+
 .border-left {
   border-left: 1px solid !important;
 }
