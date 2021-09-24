@@ -28,7 +28,7 @@
             <input class="custom-class white-text">
           </div>
         </div>
-        <input type="text" id="starring" name="starring" value="{{ movie.starring | join(',') }}" hidden>
+        <input type="text" id="starring" name="starring" value="{{ movie.starring | join(',') }}" hidden required>
       </div>
 
       <div class="row">
@@ -40,7 +40,7 @@
       </div>
 
       <div class="row center-align">
-        <button class="btn waves-effect waves-light" type="button" name="edit-movie-btn">Save
+        <button class="btn waves-effect waves-light" type="button" name="edit-movie-btn" disabled>Save
           <i class="material-icons right">save</i>
         </button>
       </div>

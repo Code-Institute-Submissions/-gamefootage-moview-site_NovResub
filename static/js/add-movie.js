@@ -17,7 +17,9 @@ $("button[name=add-movie-btn]").on("click", function() {
   let str = actors.join(",")
   $("#starring").val(str);
 
-  $("#add-movie-form").submit();
+  if (formValidate()) {
+    $("#add-movie-form").submit();
+  }
 });
 
 $("#cover_image_url").on("keyup", delay(function() {
@@ -51,4 +53,23 @@ function checkImage(url) {
   s.onload = function(){
     $("#cover_image_url").get(0).setCustomValidity('');
   }
+}
+
+// Form Validation
+function formValidate() {
+    let valid = true;
+    const $requiredInputs = $('input,textarea,select').filter('[required]');
+    $requiredInputs.each(function() {
+        if ($(this).val() != null || $(this).val() != undefined) {
+            let len = $(this).val().length
+            if (len <= 0) {
+                valid = false
+                $(this.id).get(0).setCustomValidity('This value is required.');
+            }
+        } else {
+            valid = false;
+            $(this.id).get(0).setCustomValidity('This value is required.');
+        }
+    });
+    return valid;
 }
