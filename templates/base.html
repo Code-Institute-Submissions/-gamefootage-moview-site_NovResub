@@ -63,16 +63,14 @@
   </header>
 
   <!-- Flashed Messages -->
-  <section>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, message in messages %}
-          <div id="snackbar" class="{% if messages %} show {% endif %}">
+            <div id="snackbar" class="{% if messages %} show {% endif %}">
             {{ message }}
             <i class="material-icons right">close</i>
-          </div>
+            </div>
         {% endfor %}
     {% endwith %}
-  </section>
   
   <!-- Content Title -->
   <div class="row">
