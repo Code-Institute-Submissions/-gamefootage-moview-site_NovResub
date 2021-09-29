@@ -26,6 +26,7 @@ app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
 
+
 # Pass now variable to every template
 @app.context_processor
 def inject_now():
@@ -139,8 +140,12 @@ def logout():
 @app.route("/<movie_id>/delete")
 def delete_movie(movie_id):
     if "user" not in session:
+        message = (
+            "You must be logged in to perform any actions."
+            " Please log in or sign up."
+        )
         flash(
-            "You must be logged in to perform any actions. Please log in or sign up."
+            message=message
         )
     else:
         user_id = session["user"]["_id"]
@@ -164,9 +169,11 @@ def delete_movie(movie_id):
 @app.route("/<movie_id>/edit", methods=["GET", "POST"])
 def edit_movie(movie_id):
     if "user" not in session:
-        flash(
-            "You must be logged in to perform any actions. Please log in or sign up."
+        message = (
+            "You must be logged in to perform any actions."
+            " Please log in or sign up."
         )
+        flash(message=message)
     else:
         if request.method == "GET":
             if movie_id == "form":
@@ -274,8 +281,12 @@ def edit_review(movie_id):
             if result.modified_count > 0:
                 flash("Review successfully updated")
             else:
+                message = (
+                    "There was a problem updating your review."
+                    "  Please try again"
+                )
                 flash(
-                    "There was a problem updating your review. Please try again"
+                    message=message
                 )
 
         return redirect(url_for("get_movies"))
