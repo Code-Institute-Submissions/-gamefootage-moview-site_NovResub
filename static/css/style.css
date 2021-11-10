@@ -146,6 +146,10 @@ main {
   color: #343434;
 }
 
+.dropdown-trigger {
+    display: flex;
+}
+
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
 #snackbar.show {
   visibility: visible; /* Show the snackbar */

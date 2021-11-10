@@ -35,12 +35,14 @@
            <li><a href="/login">Log In</a></li> 
            <li><a href="/register">Register</a></li> 
           {% else %}
-          <a class="dropdown-trigger" href="#user-dropdown" data-target="user-dropdown">
-            <li class="profile-img valign-wrapper">
-              <img src="{{ session['user']['profile_url'] }}" alt="session['user']['username']" class="responsive-img circle">
-            </li>
-            <span class="username">{{ session['user']['username'] }}</span>
-          </a>
+          <li>
+              <a class="dropdown-trigger" href="#user-dropdown" data-target="user-dropdown">
+                <div class="profile-img valign-wrapper">
+                  <img src="{{ session['user']['profile_url'] }}" alt="session['user']['username']" class="responsive-img circle">
+                </div>
+                <span class="username">{{ session['user']['username'] }}</span>
+              </a>
+          </li>
           {% endif %}
         </ul>
       </div>

@@ -1,3 +1,4 @@
+""" Moview site configuration """
 import os
 from datetime import datetime
 from flask import (
@@ -30,18 +31,21 @@ mongo = PyMongo(app)
 # Pass now variable to every template
 @app.context_processor
 def inject_now():
+    """ Pass current time/date to templates """
     return {"now": datetime.utcnow()}
 
 
 @app.route("/")
 @app.route("/movies")
 def get_movies():
+    """ Render movies page """
     movies = list(mongo.db.movies.find())
     return render_template("movies.html", movies=movies)
 
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
+    """ Render login page, handle user log in actions """
     if request.method == "POST":
         db_user = mongo.db.users.find_one(
             {"username": request.form.get("username")}
@@ -71,6 +75,7 @@ def login():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """ Render register page and register user on POST """
     if request.method == "POST":
 
         profile_url = "https://cdn.pixabay.com/photo/2015/10/05/22/37/\
@@ -97,6 +102,7 @@ def register():
 
 @app.route("/profile", methods=["GET", "POST"])
 def show_profile():
+    """ Render profile page """
     if request.method == "POST":
         print(session["user"]["_id"])
         mongo.db.users.update_one(
@@ -133,12 +139,14 @@ def show_profile():
 
 @app.route("/logout")
 def logout():
+    """ Log user out """
     del session["user"]
     return redirect(url_for("login"))
 
 
 @app.route("/<movie_id>/delete")
 def delete_movie(movie_id):
+    """ Handle movie delete action """
     if "user" not in session:
         message = (
             "You must be logged in to perform any actions."
@@ -168,6 +176,7 @@ def delete_movie(movie_id):
 
 @app.route("/<movie_id>/edit", methods=["GET", "POST"])
 def edit_movie(movie_id):
+    """ Render edit movie page, allow details to be edited """
     if "user" not in session:
         message = (
             "You must be logged in to perform any actions."
@@ -217,6 +226,7 @@ def edit_movie(movie_id):
 
 @app.route("/<movie_id>/add-review", methods=["POST", "GET"])
 def add_review(movie_id):
+    """ Add review to relevant movie """
     reviewer = session["user"]["username"]
     reviewer_img = session["user"]["profile_url"]
     current_reviews = mongo.db.movies.find_one({"_id": ObjectId(movie_id)})[
@@ -251,6 +261,7 @@ def add_review(movie_id):
 
 @app.route("/<movie_id>/edit-review", methods=["POST", "GET"])
 def edit_review(movie_id):
+    """ Allow review on movie to be edited """
     print(request.form.get("rating"))
     print(request.form.get("review"))
     if request.method == "POST":
@@ -294,6 +305,7 @@ def edit_review(movie_id):
 
 @app.route("/<movie_id>/delete-review")
 def delete_review(movie_id):
+    """ Allow review to be deleted """
     reviews = mongo.db.movies.find_one({"_id": ObjectId(movie_id)})["reviews"]
 
     review_index = next(
@@ -323,6 +335,7 @@ def delete_review(movie_id):
 
 @app.route("/movies/add", methods=["POST", "GET"])
 def add_movie():
+    """ Add movie with new details """
     if "user" in session:
         if request.method == "POST":
             new_movie = {
@@ -349,6 +362,7 @@ def add_movie():
 
 @app.route("/movies/search", methods=["POST", "GET"])
 def search():
+    """ Search movies database """
     term = request.form.get("search")
     movies = list(mongo.db.movies.find({"$text": {"$search": term}}))
     return render_template("movies.html", movies=movies)
